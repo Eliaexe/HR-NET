@@ -1,38 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'EB Garamond', serif;
+}
+
 .App {
-  text-align: center;
+  height: 100vh;
+  background-color: #6dd15c;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 30%;
+}
+
+.header .logo {
+  font-style: italic;
+  font-size: 45px;
+  font-weight: 500;
+}
+
+.header .link{
+  font-family: 'EB Garamond', serif;
+  font-size: 25px;
+}
+
+.modal {
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 80%;
 }
 
-.App-link {
-  color: #61dafb;
+.form{
+  width: 500px;
+  background-color: white;
+  padding: 4px 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.mainCreate {
+  height: 100%;
+}
+
+.input-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.input-wrapper label {
+  font-size: 26px;
+  font-weight: 300;
+}
+
+.input-wrapper input {
+  height: 25px;
+  width: 80%;
+}
+
+.input-wrapper input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  padding-bottom: 5px;
+}
+
+.save-button {
+  display: block;
+  width: 60%;
+  margin: 0 20%;
+  height: 40px;
+}
+
+
+/* list page */
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
