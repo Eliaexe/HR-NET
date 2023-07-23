@@ -6,7 +6,17 @@ export function Create() {
         <div className="mainCreate">
             <Header />
             <h1>Create Employee</h1>
-            <Modal />
+            <Modal input={{
+                'First Name': 'text',
+                'Last Name': 'text',
+                'Date of Birth': 'date',
+                'Start Date': 'date',
+                'Street': 'text',
+                'City': 'text',
+                'State': 'select',
+                'Zip Code': 'number',
+                'Department': 'select',
+                }}/>
         </div>
     )
 }
