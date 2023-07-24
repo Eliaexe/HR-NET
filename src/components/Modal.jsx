@@ -1,9 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { saveEmployee } from "../store/actions";
 
 export default function Modal(props) {
   const modalStructure = props.input;
-  const employees = useSelector((state) => state.employees);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -26,19 +25,23 @@ export default function Modal(props) {
   const renderModal = () => {
     const inputElements = [];
 
+
     for (const input in modalStructure) {
       if (Object.hasOwnProperty.call(modalStructure, input)) {
         const type = modalStructure[input];
         const metadata = input.toLowerCase().split(" ").join("_");
-        if (type !== 'select') {
+        const isRequired = type[1] === 'required' ? true : false
+        console.log(isRequired);
+        if (type[0] !== 'select') {
+          // console.log(type[1]);
             inputElements.push(
               <div className="input-wrapper" key={metadata}>
                 <label htmlFor={metadata}>{input}</label>
                 <input type={type} id={metadata} />
               </div>
             );
-        } else if (type === 'select') {
-            inputElements.push(renderSelectInput(input,['bella', 'fra'], metadata))
+        } else if (type[0] === 'select') {
+            inputElements.push(renderSelectInput(input, type[2], metadata))
         }
       }
     }
@@ -65,10 +68,10 @@ export default function Modal(props) {
   return (
     <section className="modal">
       <form className="form" id="form" onSubmit={handleSubmit}>
+      <h1>{props.modalName}</h1>
         {renderModal()}
-        {renderSelectInput('ciao',['come', 'stai'])}
         <button id="submit" className="save-button" type="submit">
-          Save
+          {props.submitButton}
         </button>
       </form>
     </section>
