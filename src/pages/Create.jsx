@@ -19,18 +19,17 @@ export function Create() {
             <Modal 
                 modalName={'Create Employee'} 
                 input={{
-                    'First Name': ['text', 'required'],
-                    'Last Name': ['text', 'required'],
-                    'Date of Birth': ['date', 'required'],
-                    'Start Date': ['date', 'required'],
-                    'Street': ['text', 'required'],
-                    'City': ['text', 'required'],
-                    'State': ['select', 'required', statesName],
-                    'Zip Code': ['number', 'required'],
-                    'Department': ['select', 'required', department],
+                    'First Name': ['text'],
+                    'Last Name': ['text'],
+                    'Date of Birth': ['date'],
+                    'Start Date': ['date'],
+                    'Street': ['text'],
+                    'City': ['text'],
+                    'State': ['select', statesName],
+                    'Zip Code': ['number'],
+                    'Department': ['select', department],
                 }}
                 submitButton={'Save'}
-                
                 />
                 
         </div>
