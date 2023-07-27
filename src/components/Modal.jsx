@@ -1,18 +1,15 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { saveEmployee } from "../store/actions";
-// React-Select external pakage
-import Select from "react-select"; 
+import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 
 export default function Modal(props) {
   const modalStructure = props.input;
   const dispatch = useDispatch();
   const [selectedOption, setSelectedOption] = useState(null);
-  const [inputDate, setinputDate] = useState(new Date());
-
+  const [inputDate, setInputDate] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,36 +19,41 @@ export default function Modal(props) {
       newEmployeeData[input.id] = input.value;
     });
 
-    // // Controllo campi obbligatori, ad esempio:
-    // if (!newEmployeeData.firstName || !newEmployeeData.lastName) {
-    //   alert("Please fill in all required fields");
-    //   return;
-    // }
-
     dispatch(saveEmployee(newEmployeeData));
+  };
+
+  const handleChangeDate = (name, date) => {
+    const existingDataIndex = inputDate.findIndex((data) => data.name === name);
+
+    if (existingDataIndex !== -1) {
+      setInputDate((prevInputDate) =>
+        prevInputDate.map((data, index) =>
+          index === existingDataIndex ? { ...data, date } : data
+        )
+      );
+    } else {
+      setInputDate((prevInputDate) => [...prevInputDate, { name, date }]);
+    }
   };
 
   const renderModal = () => {
     const inputElements = [];
 
-
     for (const input in modalStructure) {
       if (Object.hasOwnProperty.call(modalStructure, input)) {
         const type = modalStructure[input];
         const metadata = input.toLowerCase().split(" ").join("_");
-        // const isRequired = type[1] === 'required' ? true : false
-        // console.log(isRequired);
-        if (type[0] !== 'select' && type[0] !== 'date') {
-          // console.log(type[1]);
-            inputElements.push(
-              <div className="input-wrapper" key={metadata}>
-                <label htmlFor={metadata}>{input}</label>
-                <input type={type} id={metadata} />
-              </div>
-            );
-        } else if (type[0] === 'select') {
-            inputElements.push(renderSelectInput(input, type[1], metadata))
-        } else if (type[0] === 'date'){
+
+        if (type[0] !== "select" && type[0] !== "date") {
+          inputElements.push(
+            <div className="input-wrapper" key={metadata}>
+              <label htmlFor={metadata}>{input}</label>
+              <input type={type} id={metadata} />
+            </div>
+          );
+        } else if (type[0] === "select") {
+          inputElements.push(renderSelectInput(input, type[1], metadata));
+        } else if (type[0] === "date") {
           inputElements.push(renderDateInput(input, metadata));
         }
       }
@@ -59,13 +61,14 @@ export default function Modal(props) {
 
     return inputElements;
   };
-  
+
   const renderSelectInput = (name, selection, metadata) => {
-    const options = []
-    selection.forEach(e => {
+    const options = [];
+    selection.forEach((e) => {
       options.push({
-        'value': e.toLowerCase(), 'label': e
-      })
+        value: e.toLowerCase(),
+        label: e,
+      });
     });
     return (
       <div className="input-wrapper" key={metadata}>
@@ -81,16 +84,21 @@ export default function Modal(props) {
   const renderDateInput = (name, metadata) => {
     return (
       <div className="input-wrapper" key={metadata}>
-         <label htmlFor={metadata}>{name}</label>
-        <DatePicker selected={inputDate} onChange={(date) => setinputDate(date)} />
+        <label htmlFor={metadata}>{name}</label>
+        <DatePicker
+          selected={
+            inputDate.find((data) => data.name === name)?.date || null
+          }
+          onChange={(date) => handleChangeDate(name, date)}
+        />
       </div>
     );
   };
-  
+
   return (
     <section className="modal">
       <form className="form" id="form" onSubmit={handleSubmit}>
-      <h1>{props.modalName}</h1>
+        <h1>{props.modalName}</h1>
         {renderModal()}
         <button id="submit" className="save-button" type="submit">
           {props.submitButton}
