@@ -3,11 +3,15 @@ import { useState } from "react";
 import { saveEmployee } from "../store/actions";
 // React-Select external pakage
 import Select from "react-select"; 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 export default function Modal(props) {
   const modalStructure = props.input;
   const dispatch = useDispatch();
   const [selectedOption, setSelectedOption] = useState(null);
+  const [inputDate, setinputDate] = useState(new Date());
 
 
   const handleSubmit = (e) => {
@@ -37,7 +41,7 @@ export default function Modal(props) {
         const metadata = input.toLowerCase().split(" ").join("_");
         // const isRequired = type[1] === 'required' ? true : false
         // console.log(isRequired);
-        if (type[0] !== 'select') {
+        if (type[0] !== 'select' && type[0] !== 'date') {
           // console.log(type[1]);
             inputElements.push(
               <div className="input-wrapper" key={metadata}>
@@ -47,6 +51,8 @@ export default function Modal(props) {
             );
         } else if (type[0] === 'select') {
             inputElements.push(renderSelectInput(input, type[1], metadata))
+        } else if (type[0] === 'date'){
+          inputElements.push(renderDateInput(input, metadata));
         }
       }
     }
@@ -68,6 +74,15 @@ export default function Modal(props) {
           onChange={setSelectedOption}
           options={options}
         />
+      </div>
+    );
+  };
+
+  const renderDateInput = (name, metadata) => {
+    return (
+      <div className="input-wrapper" key={metadata}>
+         <label htmlFor={metadata}>{name}</label>
+        <DatePicker selected={inputDate} onChange={(date) => setinputDate(date)} />
       </div>
     );
   };
