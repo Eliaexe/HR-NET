@@ -13,10 +13,21 @@ export default function Modal(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const inputs = document.querySelectorAll("input");
     const newEmployeeData = {};
-    inputs.forEach((input) => {
-      newEmployeeData[input.id] = input.value;
+      
+    const wrappers = document.querySelectorAll(".input-wrapper")
+    wrappers.forEach(container => {
+        let input = container.querySelector("input")
+        let selectElement = container.querySelector('.css-1dimb5e-singleValue')
+        let valueToGive
+
+        if (container.dataset.type === 'select') {
+          valueToGive = selectElement.innerHTML 
+        } else {
+          valueToGive = input.value
+        }
+
+        newEmployeeData[container.dataset.name] = valueToGive;
     });
 
     dispatch(saveEmployee(newEmployeeData));
@@ -46,7 +57,7 @@ export default function Modal(props) {
 
         if (type[0] !== "select" && type[0] !== "date") {
           inputElements.push(
-            <div className="input-wrapper" key={metadata}>
+            <div className="input-wrapper" key={metadata} data-name={input} data-type={type[0]}>
               <label htmlFor={metadata}>{input}</label>
               <input type={type} id={metadata} />
             </div>
@@ -71,7 +82,7 @@ export default function Modal(props) {
       });
     });
     return (
-      <div className="input-wrapper" key={metadata}>
+      <div className="input-wrapper" key={metadata} data-name={name} data-type={'select'}>
         <Select
           defaultValue={selectedOption}
           onChange={setSelectedOption}
@@ -83,7 +94,7 @@ export default function Modal(props) {
 
   const renderDateInput = (name, metadata) => {
     return (
-      <div className="input-wrapper" key={metadata}>
+      <div className="input-wrapper" key={metadata} data-name={name} data-type={'date'}>
         <label htmlFor={metadata}>{name}</label>
         <DatePicker
           selected={
