@@ -1,36 +1,38 @@
-import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { saveEmployee } from "../store/actions";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Modal(props) {
-  const modalStructure = props.input;
-  const dispatch = useDispatch();
+  const formStructure = props.input;
   const [selectedOption, setSelectedOption] = useState(null);
   const [inputDate, setInputDate] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newEmployeeData = {};
+    const dataToUse = {};
       
     const wrappers = document.querySelectorAll(".input-wrapper")
     wrappers.forEach(container => {
         let input = container.querySelector("input")
-        let selectElement = container.querySelector('.css-1dimb5e-singleValue')
+        let selectElement = input.parentElement.parentElement.children[0]
         let valueToGive
 
+        // console.log(input);
         if (container.dataset.type === 'select') {
-          valueToGive = selectElement.innerHTML 
+          if (selectElement.innerHTML === 'Select...') {
+            valueToGive = ""
+          } else {
+            valueToGive = selectElement.innerHTML 
+          }
         } else {
           valueToGive = input.value
         }
 
-        newEmployeeData[container.dataset.name] = valueToGive;
+        dataToUse[container.dataset.name] = valueToGive;
     });
-
-    dispatch(saveEmployee(newEmployeeData));
+    // console.log(dataToUse);
+    // props.onSubmit(dataToUse)
   };
 
   const handleChangeDate = (name, date) => {
@@ -49,27 +51,30 @@ export default function Modal(props) {
 
   const renderModal = () => {
     const inputElements = [];
-
-    for (const input in modalStructure) {
-      if (Object.hasOwnProperty.call(modalStructure, input)) {
-        const type = modalStructure[input];
+  
+    for (const input in formStructure) {
+        let theElement
+      if (Object.hasOwnProperty.call(formStructure, input)) {
+        const type = formStructure[input];
         const metadata = input.toLowerCase().split(" ").join("_");
-
-        if (type[0] !== "select" && type[0] !== "date") {
-          inputElements.push(
-            <div className="input-wrapper" key={metadata} data-name={input} data-type={type[0]}>
+        const isRequired = type[0] === true;
+  
+        if (type[1] !== "select" && type[1] !== "date") {
+          theElement = (
+            <div className="input-wrapper" key={metadata} data-name={input} data-type={type[1]}>
               <label htmlFor={metadata}>{input}</label>
-              <input type={type} id={metadata} />
+              <input type={type[1]} id={metadata} required={isRequired} />
             </div>
           );
-        } else if (type[0] === "select") {
-          inputElements.push(renderSelectInput(input, type[1], metadata));
-        } else if (type[0] === "date") {
-          inputElements.push(renderDateInput(input, metadata));
+        } else if (type[1] === "select") {
+          theElement = (renderSelectInput(input, type[2], metadata));
+          console.log(theElement.props);
+        } else if (type[1] === "date") {
+          theElement = (renderDateInput(input, metadata));
         }
       }
+      inputElements.push(theElement)
     }
-
     return inputElements;
   };
 
