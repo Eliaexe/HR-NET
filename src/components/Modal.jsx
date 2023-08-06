@@ -18,22 +18,22 @@ export default function Modal(props) {
         let selectElement = input.parentElement.parentElement.children[0]
         let valueToGive
 
-        // console.log(input);
         if (container.dataset.type === 'select') {
-          if (selectElement.innerHTML === 'Select...') {
+          let isRequired = formStructure[container.dataset.name][0]
+          if (!isRequired && selectElement.innerHTML === 'Select...') {
             valueToGive = ""
           } else {
             valueToGive = selectElement.innerHTML 
           }
+
         } else {
           valueToGive = input.value
         }
-
         dataToUse[container.dataset.name] = valueToGive;
     });
-    // console.log(dataToUse);
-    // props.onSubmit(dataToUse)
+    props.onSubmit(dataToUse)
   };
+
 
   const handleChangeDate = (name, date) => {
     const existingDataIndex = inputDate.findIndex((data) => data.name === name);
@@ -68,7 +68,6 @@ export default function Modal(props) {
           );
         } else if (type[1] === "select") {
           theElement = (renderSelectInput(input, type[2], metadata));
-          console.log(theElement.props);
         } else if (type[1] === "date") {
           theElement = (renderDateInput(input, metadata));
         }
@@ -86,31 +85,36 @@ export default function Modal(props) {
         label: e,
       });
     });
+  
+    const isRequired = formStructure[name][0];
+  
     return (
       <div className="input-wrapper" key={metadata} data-name={name} data-type={'select'}>
         <Select
           defaultValue={selectedOption}
           onChange={setSelectedOption}
+          className={metadata}
           options={options}
+          required={isRequired}
         />
       </div>
     );
   };
-
+  
   const renderDateInput = (name, metadata) => {
+    const isRequired = formStructure[name][0];
+  
     return (
       <div className="input-wrapper" key={metadata} data-name={name} data-type={'date'}>
         <label htmlFor={metadata}>{name}</label>
         <DatePicker
-          selected={
-            inputDate.find((data) => data.name === name)?.date || null
-          }
+          selected={inputDate.find((data) => data.name === name)?.date || null}
           onChange={(date) => handleChangeDate(name, date)}
+          required={isRequired} 
         />
       </div>
     );
   };
-
   return (
     <section className="modal">
       <form className="form" id="form" onSubmit={handleSubmit}>
