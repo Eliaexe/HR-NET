@@ -14,7 +14,6 @@
 
 .header {
   display: flex;
-  /* flex-direction: column; */
   align-items: center;
   justify-content: space-between;
   margin: 0 30%;
@@ -31,7 +30,7 @@
   font-size: 25px;
 }
 
-.modal {
+.modal{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,6 +38,11 @@
 }
 
 .form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   width: 500px;
   background-color: white;
   padding: 4px 20px;
@@ -88,4 +92,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
+
+
+/* table */
+table { 
+	width: 750px; 
+	border-collapse: collapse; 
+	margin:50px auto;
+	}
+
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+	background: #eee; 
+}
+
+tr:nth-of-type(even) { 
+  background: white; 
+}
+
+th { 
+	background: #3498db; 
+	color: white; 
+	font-weight: bold; 
+	}
+
+td, th { 
+	padding: 10px; 
+	border: 1px solid #ccc; 
+	text-align: left; 
+	font-size: 18px;
+	}
+
+
+
+

@@ -1,5 +1,4 @@
 import Header from "../components/Header"
-import Modal from "../components/Modal"
 import { states } from "../utils/states";
 import { department } from "../utils/department";
 import { saveEmployee } from "../store/actions";
@@ -24,22 +23,6 @@ export function Create() {
     return(
         <div className="mainCreate">
             <Header />
-            {/* <Modal 
-                modalName={'Create Employee'} 
-                input={{
-                    'First Name': [false,'text'],
-                    'Last Name': [false, 'text'],
-                    'Date of Birth': [true, 'date'],
-                    'Start Date': [false, 'date'],
-                    'Street': [false, 'text'],
-                    'City': [false, 'text'],
-                    'State': [true, 'select', statesName],
-                    'Zip Code': [false, 'number'],
-                    'Department': [true, 'select', department],
-                }}
-                submitButton={'Save'}
-                onSubmit={handleSubmitForm}
-                /> */}
                 <Form 
                 modalName={'Create Employee'} 
                 input={{
@@ -55,8 +38,7 @@ export function Create() {
                 }}
                 submitButton={'Save'}
                 onSubmit={handleSubmitForm}
-                />
-                
+            />    
         </div>
     )
 }
