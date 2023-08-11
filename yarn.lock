@@ -8001,6 +8001,21 @@ react-personalized-form@^0.2.5:
     react-select "^5.7.4"
     web-vitals "^2.1.4"
 
+react-personalized-modal@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/react-personalized-modal/-/react-personalized-modal-0.1.0.tgz"
+  integrity sha512-8i97TMN5VkDumcG+gVoauaN22ZiNQ8YU8sURDZzetRbaGgtyJLxY66Sq7mmtdWQ8DWz6WtJKsYBUafstyOKw/g==
+  dependencies:
+    "@babel/plugin-proposal-private-property-in-object" "^7.21.11"
+    "@babel/polyfill" "^7.12.1"
+    "@testing-library/jest-dom" "^5.17.0"
+    "@testing-library/react" "^13.4.0"
+    "@testing-library/user-event" "^13.5.0"
+    react "^18.2.0"
+    react-dom "^18.2.0"
+    react-scripts "5.0.1"
+    web-vitals "^2.1.4"
+
 react-popper@^2.3.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/react-popper/-/react-popper-2.3.0.tgz"

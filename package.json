@@ -11,6 +11,7 @@
     "react-datepicker": "^4.16.0",
     "react-dom": "^18.2.0",
     "react-personalized-form": "^0.2.5",
+    "react-personalized-modal": "^0.1.0",
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.2",
     "react-scripts": "5.0.1",
