@@ -8,8 +8,9 @@
 }
 
 .App {
-  height: 100vh;
+  min-height: 100%;
   background-color: #6dd15c;
+  padding-bottom: 50px;
 }
 
 .header {
@@ -116,7 +117,8 @@ th {
 	background: #3498db; 
 	color: white; 
 	font-weight: bold; 
-	}
+  min-width: 120px;
+}
 
 td, th { 
 	padding: 10px; 
@@ -125,5 +127,18 @@ td, th {
 	font-size: 18px;
 	}
 
+.topTable, .bottomTable {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 750px;
+  margin-bottom: -20px;
+}
 
+.topTable, label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
 
