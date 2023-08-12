@@ -12,6 +12,15 @@ export default function List() {
   const [startIndex, setStartIndex] = useState(0);
 
   useEffect(() => {
+    const employeesWithKeys = employees.map((employee, index) => ({
+      ...employee,
+      key: index, 
+    }));
+
+    setEmployeesData(employeesWithKeys);
+  }, [employees]);
+
+  useEffect(() => {
     setSelectedOption(options[0]);
     updateEmployeesData(startIndex, options[0].value);
   }, []);
@@ -66,6 +75,7 @@ export default function List() {
     onHeaderCell: () => ({
       onClick: () => handleSorting(key),
     }),
+    
   }));
 
   const options = [
@@ -97,11 +107,34 @@ export default function List() {
     setStartIndex(startFrom);
   };
 
+  const handleSearch = (searchValue) => {
+    const searchResults = employees.filter(employee => {
+      return Object.values(employee).some(value =>
+        typeof value === 'string' && value.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    });
+
+    searchResults.sort((a, b) => {
+      const relevanceA = Object.values(a).filter(value =>
+        typeof value === 'string' && value.toLowerCase().includes(searchValue.toLowerCase())
+      ).length;
+
+      const relevanceB = Object.values(b).filter(value =>
+        typeof value === 'string' && value.toLowerCase().includes(searchValue.toLowerCase())
+      ).length;
+
+      return relevanceB - relevanceA;
+    });
+
+    setEmployeesData(searchResults);
+  };
+
   return (
     <div className="mainCreate">
       <Header />
       <main className="main">
-        <h1>Employee List</h1>
+        <h1 className="listTitle">Employee List</h1>
+        <section className="tableContainer">
         <div className="topTable">
           <label htmlFor="show">
             Show 
@@ -115,17 +148,27 @@ export default function List() {
           </label>
           <label htmlFor="searchTable">
             Search 
-            <input type="text" name="searchTable" id="searchTable" />
+            <input 
+              type="text"  
+              name="searchTable" 
+              id="searchTable"
+              onChange={(e) => handleSearch(e.target.value)}
+            />
           </label>
         </div>
         {employees.length > 0 ? <Table columns={columns} data={employeesData} rowKey="key" /> : ''}
         <div className="bottomTable">
           <p>Showing {startIndex + 1} to {Math.min(startIndex + selectedOption.value, employees.length)} of {employees.length} entries</p>
           <div className="directionButtons">
-            <button onClick={() => handleButtons('prev')}>Previus</button>
-            <button onClick={() => handleButtons('next')}>Next</button>
+            <button onClick={() => handleButtons('prev')}>
+              <img src="./arrow_forward.svg" className="reverse" alt="arrow" />
+            </button>
+            <button onClick={() => handleButtons('next')}>
+              <img src="./arrow_forward.svg" alt="arrow" />
+            </button>
           </div>
         </div>
+        </section>
       </main>
     </div>
   );

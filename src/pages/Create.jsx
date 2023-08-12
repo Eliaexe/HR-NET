@@ -27,8 +27,9 @@ export function Create() {
     return (
         <div className="mainCreate">
             <Header />
+            <main className="main">
+            <h1>Create Employee</h1>
             <Form 
-                modalName={'Create Employee'} 
                 input={{
                     'First Name': [true,'text'],
                     'Last Name': [true, 'text'],
@@ -42,7 +43,7 @@ export function Create() {
                 }}
                 submitButton={'Save'}
                 onSubmit={handleSubmitForm}
-            />    
+                />    
             <Modal
                 open={isOpen}
                 onCloseModal={handleCloseModal}
@@ -62,7 +63,8 @@ export function Create() {
                     fontSize: '20px',
                     textAlign: 'center'
                 }}
-            />
+                />
+                </main>
         </div>
     )
 }
