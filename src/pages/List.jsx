@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
-import Header from "../components/Header";
 import Table from 'rc-table';
-import React, { useState, useEffect } from "react";
-import Select from "react-select"; 
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import Header from "../components/Header.jsx";
 
 export default function List() {
   const employees = useSelector((state) => state.employees.employees);
@@ -10,6 +9,18 @@ export default function List() {
   const [sortOrders, setSortOrders] = useState({});
   const [selectedOption, setSelectedOption] = useState(0);
   const [startIndex, setStartIndex] = useState(0);
+
+  const options = useMemo(() => [
+    { value: 10, label: '10' },
+    { value: 25, label: '25' },
+    { value: 50, label: '50' },
+    { value: 100, label: '100' }
+  ], []);
+
+  const updateEmployeesData = useCallback((start, count) => {
+    const endIndex = Math.min(start + count, employees.length);
+    setEmployeesData(employees.slice(start, endIndex));
+  }, [employees]);
 
   useEffect(() => {
     const employeesWithKeys = employees.map((employee, index) => ({
@@ -23,16 +34,13 @@ export default function List() {
   useEffect(() => {
     setSelectedOption(options[0]);
     updateEmployeesData(startIndex, options[0].value);
-  }, []);
+    
+  }, [updateEmployeesData, startIndex, options]);
 
   useEffect(() => {
     updateEmployeesData(startIndex, selectedOption.value);
-  }, [startIndex, selectedOption, employees]);
-
-  const updateEmployeesData = (start, count) => {
-    const endIndex = Math.min(start + count, employees.length);
-    setEmployeesData(employees.slice(start, endIndex));
-  };
+    
+  }, [startIndex, selectedOption, employees, updateEmployeesData]);
 
   const handleSorting = (colTitle) => {
     const currentSortOrder = sortOrders[colTitle] || 'asc';
@@ -78,12 +86,7 @@ export default function List() {
     
   }));
 
-  const options = [
-    { value: 10, label: '10' },
-    { value: 25, label: '25' },
-    { value: 50, label: '50' },
-    { value: 100, label: '100' }
-  ];
+
 
   const handleSelectChange = (selectedOption) => {
     setSelectedOption(selectedOption);
@@ -136,22 +139,31 @@ export default function List() {
         <h1 className="listTitle">Employee List</h1>
         <section className="tableContainer">
         <div className="topTable">
-          <label htmlFor="show">
-            Show 
-            <Select
-              value={selectedOption}
-              onChange={handleSelectChange}
-              className='show'
-              options={options}
-              required={false}
-            />
-          </label>
+        <label htmlFor="show">
+          Show
+          <select 
+            name="show"
+            id="show"
+            className="theInputTeam"
+            required
+            value={selectedOption.value} // Utilizza il valore numerico dell'opzione selezionata
+            onChange={(e) => handleSelectChange(options.find(option => option.value === parseInt(e.target.value)))} // Trova l'oggetto option corrispondente e passalo alla funzione
+          >
+            {options.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
           <label htmlFor="searchTable">
             Search 
             <input 
               type="text"  
               name="searchTable" 
               id="searchTable"
+              // value={selectedOption}
               onChange={(e) => handleSearch(e.target.value)}
             />
           </label>
