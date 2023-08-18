@@ -27,8 +27,10 @@ export default function Create() {
     Array.from(inputElements).forEach(element => {
         const name = element.getAttribute('data-name');
         const value = element.value;
+        
         valuesObject[name] = value;
     });
+    document.querySelector('.form').reset()
 
     setIsOpen(true)
     dispatch(saveEmployee(valuesObject));
@@ -45,6 +47,20 @@ const message = "Employee successfully created"
       <main className="main">
         <h1>Create Employee</h1>
         <form onSubmit={handleFormSubmit} className="form">
+            <div
+                className="input-wrapper"
+                data-name='First Name'
+                data-type='text'
+            >
+                <label htmlFor='first-name'>First Name</label>
+                <input 
+                    type='input'    
+                    id='first-name' 
+                    data-name='First Name' 
+                    required='required' 
+                    className="theInputTeam"
+                />
+            </div>
             <div
                 className="input-wrapper"
                 data-name='Last Name'
